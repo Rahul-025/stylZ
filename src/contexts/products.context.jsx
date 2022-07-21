@@ -27,7 +27,6 @@ export const ProductsProvider = ({ children }) => {
   }, []);
 
   const value = { productsMap, setProductsMap };
-  // console.log(productsMap);
   return (
     <ProductsContext.Provider value={value}>
       {children}

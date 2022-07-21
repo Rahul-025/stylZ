@@ -16,7 +16,6 @@ export const ErrorToastEmitter = (message, extra = null) => {
 
 export const SuccessToastEmmitter = (message, extra = null) => {
   const msg = GetMessage(message, extra);
-  console.log(msg);
   return toast.success(`${msg}`, {
     position: "bottom-right",
     autoClose: 5000,

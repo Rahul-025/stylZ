@@ -1,4 +1,3 @@
-import React from "react";
 import { ProductsContainer } from "./ProductsCollection.style";
 import ProductCard from "../product-card/ProductCard.component";
 

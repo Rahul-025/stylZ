@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
+import PulseLoader from "react-spinners/PulseLoader";
 // Components
 import { Container, HeadingH2 } from "../../commonStyles";
 import ProductsCollection from "../../components/products-collection/ProductsCollection.component";
 
 // Contexts
 import { ProductsContext } from "../../contexts/products.context";
-import ProductCard from "../product-card/ProductCard.component";
 
 const CategoryProducts = () => {
   const { category } = useParams();
@@ -17,13 +17,16 @@ const CategoryProducts = () => {
   useEffect(() => {
     setProducts(productsMap[category]);
   }, [category, productsMap]);
-
-  console.log(products);
+  console.log(category);
   return (
-    <Container>
-      <HeadingH2>{category}</HeadingH2>
-      <ProductsCollection products={products} showAllProducts={true} />
-    </Container>
+    <div>
+      {products && (
+        <Container>
+          <HeadingH2>{category}</HeadingH2>
+          <ProductsCollection products={products} showAllProducts={true} />
+        </Container>
+      )}
+    </div>
   );
 };
 
