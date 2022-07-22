@@ -21,4 +21,37 @@ export const CategoriesContainer = styled.div`
   ${CategoryCardContainer}:nth-child(5) {
     grid-column: span 2;
   }
+
+  @media (max-width: 1000px) {
+    grid-template-rows: 30rem 20rem 30rem;
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 30rem 20rem 30rem 30rem;
+
+    ${CategoryCardContainer}:nth-child(1) {
+      grid-row: span 2;
+    }
+    ${CategoryCardContainer}:nth-child(5) {
+      grid-column: span 1;
+    }
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 20rem 20rem 30rem 20rem 20rem 30rem 20rem 20rem 30rem;
+
+    ${CategoryCardContainer}:nth-child(1) {
+      grid-row: span 2;
+    }
+
+    ${CategoryCardContainer}:nth-child(3) {
+      grid-row: span 2;
+    }
+
+    ${CategoryCardContainer}:nth-child(5) {
+      grid-row: span 2;
+    }
+  }
 `;

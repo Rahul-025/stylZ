@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PulseLoader from "react-spinners/PulseLoader";
@@ -8,6 +8,8 @@ import {
   createUserDocFromAuth,
   createAuthUserFromEmailAndPassword,
 } from "../../utilities/firebase/firebase.util";
+
+import { useClickOutside } from "../../utilities/useClickOutside";
 
 import { ErrorToastEmitter } from "../../utilities/toaster/toast.util";
 
@@ -21,7 +23,7 @@ import { UtilityContext } from "../../contexts/utilities.context";
 import FormInput from "../formInput/FormInput.component";
 
 //Styles
-import { HeadingH2, ButtonDarkBlue, Div, FlexDiv } from "../../commonStyles";
+import { HeadingH2, ButtonDarkBlue, Div } from "../../commonStyles";
 import {
   Form,
   Span,
@@ -29,6 +31,7 @@ import {
   SignUpFormContainer,
   SignUpContainer,
   XIconContainer,
+  FlexDivSignUp,
 } from "./SignUp.styles";
 
 const defaultFormFields = {
@@ -43,6 +46,9 @@ const SignUp = ({ setModel }) => {
   const { email, displayName, password, confirmPassword } = formFields;
   const { loading, setLoading } = useContext(UtilityContext);
   const navigate = useNavigate();
+  const signUpRef = useRef(null);
+
+  useClickOutside(signUpRef, () => setModel(false));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,13 +84,13 @@ const SignUp = ({ setModel }) => {
 
   return (
     <SignUpContainer>
-      <SignUpFormContainer>
+      <SignUpFormContainer ref={signUpRef}>
         <XIconContainer onClick={handleExit}>
-          <GiCrossedBones size={20} color="var(--text-primary-blue)" />
+          <GiCrossedBones size={20} color="var(--navbar-color)" />
         </XIconContainer>
         <Form onSubmit={handleSubmit}>
           <HeadingH2>Sign Up</HeadingH2>
-          <FlexDiv>
+          <FlexDivSignUp>
             <FormInput
               label="Display Name"
               inputOptions={{
@@ -98,16 +104,18 @@ const SignUp = ({ setModel }) => {
               inputOptions={{
                 name: "email",
                 value: email,
+                type: "email",
                 onChange: handleChange,
               }}
             />
-          </FlexDiv>
-          <FlexDiv>
+          </FlexDivSignUp>
+          <FlexDivSignUp>
             <FormInput
               label="Password"
               inputOptions={{
                 name: "password",
                 value: password,
+                type: "password",
                 onChange: handleChange,
               }}
             />
@@ -116,10 +124,11 @@ const SignUp = ({ setModel }) => {
               inputOptions={{
                 name: "confirmPassword",
                 value: confirmPassword,
+                type: "password",
                 onChange: handleChange,
               }}
             />
-          </FlexDiv>
+          </FlexDivSignUp>
         </Form>
         <ButtonContainer style={{ marginTop: "2rem" }}>
           <ButtonDarkBlue type="submit" onClick={handleSubmit}>

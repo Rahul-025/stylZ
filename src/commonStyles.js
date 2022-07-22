@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-margin: 9rem 3rem 9rem 3rem;
-font-size: 3.2rem;
-`
+  margin: 9rem 3rem 9rem 3rem;
+`;
 
 export const HeadingH2 = styled.h2`
   color: var(--text-primary-blue);
@@ -12,11 +11,16 @@ export const HeadingH2 = styled.h2`
   font-size: 3.2rem;
   font-weight: 700;
   margin-bottom: 1rem;
+
+  @media (max-width: 380px) {
+    font-size: 2.4rem;
+  }
 `;
 
 export const Div = styled.div`
   font-size: 1.6rem;
   color: var(--text-primary-blue);
+  margin-bottom: 2rem;
 
   span {
     text-decoration: underline;

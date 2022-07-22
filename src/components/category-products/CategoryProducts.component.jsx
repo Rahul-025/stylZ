@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import PulseLoader from "react-spinners/PulseLoader";
+import { Category } from "./CategoryProducts.style";
+
 // Components
-import { Container, HeadingH2 } from "../../commonStyles";
+import { Container } from "../../commonStyles";
 import ProductsCollection from "../../components/products-collection/ProductsCollection.component";
 
 // Contexts
@@ -17,12 +18,12 @@ const CategoryProducts = () => {
   useEffect(() => {
     setProducts(productsMap[category]);
   }, [category, productsMap]);
-  console.log(category);
+
   return (
     <div>
       {products && (
         <Container>
-          <HeadingH2>{category}</HeadingH2>
+          <Category>- {category} -</Category>
           <ProductsCollection products={products} showAllProducts={true} />
         </Container>
       )}

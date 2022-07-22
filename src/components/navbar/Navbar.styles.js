@@ -5,7 +5,7 @@ export const NavbarContainer = styled.div`
     width: 100%;
     height: 7vh;
     background-color: var(--navbar-color);
-    padding: 0 4rem;
+    padding: 2rem 4rem;
 
     display: flex;
     align-items: center;

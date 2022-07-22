@@ -22,14 +22,16 @@ export const ProductCard = ({ product }) => {
   };
 
   return (
-    <ProductCardContainer>
-      <ProductImage src={product.imageSrc} />
-      <ProductDescription>
-        <Text>{product.title}</Text>
-        <Text> &#8377; {product.price}</Text>
-      </ProductDescription>
-      <AddToCart onClick={handleAddToCart}>Add To Cart</AddToCart>
-    </ProductCardContainer>
+    <>
+      <ProductCardContainer>
+        <ProductImage src={product.imageSrc} />
+        <ProductDescription>
+          <Text>{product.title}</Text>
+          <Text> &#8377; {product.price}</Text>
+        </ProductDescription>
+        <AddToCart onClick={handleAddToCart}>+CART</AddToCart>
+      </ProductCardContainer>
+    </>
   );
 };
 

@@ -9,7 +9,7 @@ import {
   CategorySubtitle,
 } from "./HomeCategory-card.style";
 
-const CategoryCard = ({ category }) => {
+const HomeCategoryCard = ({ category }) => {
   const { title, imageSrc } = category;
   return (
     <CategoryCardContainer>
@@ -22,4 +22,4 @@ const CategoryCard = ({ category }) => {
   );
 };
 
-export default CategoryCard;
+export default HomeCategoryCard;
