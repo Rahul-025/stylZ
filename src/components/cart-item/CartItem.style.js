@@ -5,7 +5,6 @@ export const CartItemContainer = styled.div`
   gap: 2rem;
   align-items: center;
   justify-content: center;
-  
 `;
 export const CartItemImage = styled.img`
   width: 8rem;
@@ -13,5 +12,21 @@ export const CartItemImage = styled.img`
   outline: 1px solid var(--text-primary-blue);
 `;
 export const CartItemText = styled.span`
-    font-size: 1.4rem;
+  font-size: 1.4rem;
+`;
+
+export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+export const IconContainer = styled.div`
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.4s;
+  margin-right: 0.5rem;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
