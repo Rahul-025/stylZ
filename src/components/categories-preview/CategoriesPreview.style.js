@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const CategoriesPreviewContainer = styled.div`
-  margin: 9rem 3rem 9rem 3rem;
+  margin: 12rem 3rem 5rem 3rem;
   font-size: 3.2rem;
 `;
 

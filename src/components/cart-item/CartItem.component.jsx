@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
 
 // Styles
 import {
@@ -9,14 +9,22 @@ import {
   IconContainer,
 } from "./CartItem.style";
 
-// Contexts
-import { CartContext } from "../../contexts/cart.context";
+// redux
+import { addItemToCart, removeItemFromCart } from "../../store/cart/cart.slice";
 
 // Icons
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 
 const CartItem = ({ cartItem }) => {
-  const { addItemToCart, removeItemFromCart } = useContext(CartContext);
+  const dispatch = useDispatch();
+
+  const addItemHandler = () => {
+    dispatch(addItemToCart(cartItem));
+  };
+
+  const removeItemHandler = () => {
+    dispatch(removeItemFromCart(cartItem));
+  };
 
   return (
     <CartItemContainer>
@@ -26,13 +34,13 @@ const CartItem = ({ cartItem }) => {
         <div>
           <IconContainer>
             <AiFillMinusCircle
-              onClick={() => removeItemFromCart(cartItem)}
+              onClick={removeItemHandler}
               style={{ cursor: "pointer" }}
             />
           </IconContainer>
           <IconContainer>
             <AiFillPlusCircle
-              onClick={() => addItemToCart(cartItem)}
+              onClick={addItemHandler}
               style={{ cursor: "pointer" }}
             />
           </IconContainer>

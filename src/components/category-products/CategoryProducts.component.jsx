@@ -1,18 +1,21 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+// Styles
 import { Category } from "./CategoryProducts.style";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Container, LoaderContainer } from "../../commonStyles";
 
 // Components
-import { Container } from "../../commonStyles";
 import ProductsCollection from "../../components/products-collection/ProductsCollection.component";
 
-// Contexts
-import { ProductsContext } from "../../contexts/products.context";
+// Selectors
+import { selectProductsMap } from "../../store/products/products.selectors";
 
 const CategoryProducts = () => {
   const { category } = useParams();
-  const { productsMap } = useContext(ProductsContext);
+  const productsMap = useSelector(selectProductsMap);
   const [products, setProducts] = useState(productsMap[category]);
 
   useEffect(() => {
@@ -21,11 +24,15 @@ const CategoryProducts = () => {
 
   return (
     <div>
-      {products && (
+      {products ? (
         <Container>
           <Category>- {category} -</Category>
           <ProductsCollection products={products} showAllProducts={true} />
         </Container>
+      ) : (
+        <LoaderContainer>
+          <ClipLoader size={50} color={"var(--text-primary-blue)"} />
+        </LoaderContainer>
       )}
     </div>
   );

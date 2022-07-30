@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FormContainer } from "../../commonStyles";
 
 export const SignInContainer = styled.div`
-  margin: 9rem 2rem;
+  margin: 12rem 3rem 5rem 3rem;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);

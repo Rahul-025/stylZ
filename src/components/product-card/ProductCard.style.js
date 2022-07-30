@@ -50,6 +50,7 @@ export const ProductCardContainer = styled.div`
   &:hover,
   &:active {
     ${AddToCart} {
+      user-select: none;
       opacity: 1;
     }
   }

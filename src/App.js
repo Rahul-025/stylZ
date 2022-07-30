@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/navbar/Navbar.component";
@@ -8,7 +10,23 @@ import Checkout from "./pages/checkout/Checkout.page";
 import Home from "./pages/home/home.page";
 import Shop from "./pages/shop/shop.page";
 
+// reducers
+import { setCurrentUser } from "./store/user/user.slice";
+
+// Utils
+import { onAuthStateChangedListner } from "./utilities/firebase/firebase.util";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListner((currentUser) => {
+      dispatch(setCurrentUser(currentUser));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <>
       <Routes>

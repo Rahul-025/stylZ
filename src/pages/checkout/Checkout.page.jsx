@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useDispatch, useSelector } from "react-redux";
 
 // styles
 import {
@@ -23,14 +23,21 @@ import EmptyCartImage from "../../assets/images/empty-cart-img.png";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 
 // contexts
-import { CartContext } from "../../contexts/cart.context";
+import {
+  selectCartItems,
+  selectCartTotal,
+} from "../../store/cart/cart.selectors";
+
+import { addItemToCart, removeItemFromCart } from "../../store/cart/cart.slice";
 
 const Checkout = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 750px)" });
   const isPortrait = useMediaQuery({ query: "(max-width: 570px)" });
 
-  const { cartItems, addItemToCart, removeItemFromCart, cartTotal } =
-    useContext(CartContext);
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector(selectCartItems);
+  const cartTotal = useSelector(selectCartTotal);
 
   return (
     <CheckoutPageContainer>
@@ -45,8 +52,8 @@ const Checkout = () => {
             <CheckoutItems>
               {cartItems.map((item) => {
                 return (
-                  <>
-                    <CheckoutItem key={item.subtitle}>
+                  <div key={item.subtitle}>
+                    <CheckoutItem>
                       <Image>
                         <img src={item.imageSrc} alt={item.subtitle} />
                         <FlexDivColumn>
@@ -56,20 +63,24 @@ const Checkout = () => {
                               <IconContainer>
                                 <AiFillMinusCircle
                                   size={20}
-                                  onClick={() => removeItemFromCart(item)}
+                                  onClick={() =>
+                                    dispatch(removeItemFromCart(item))
+                                  }
                                 />
                               </IconContainer>
                               <span>{item.quantity}</span>
                               <IconContainer>
                                 <AiFillPlusCircle
                                   size={20}
-                                  onClick={() => addItemToCart(item)}
+                                  onClick={() => dispatch(addItemToCart(item))}
                                 />
                               </IconContainer>
                             </QuantityContainer>
                           )}
                           {isPortrait && (
-                            <span style={{ fontWeight: "600" }}>
+                            <span
+                              style={{ fontWeight: "600", userSelect: "none" }}
+                            >
                               &#8377;{item.price}
                             </span>
                           )}
@@ -80,22 +91,26 @@ const Checkout = () => {
                           <IconContainer>
                             <AiFillMinusCircle
                               size={20}
-                              onClick={() => removeItemFromCart(item)}
+                              onClick={() => dispatch(removeItemFromCart(item))}
                             />
                           </IconContainer>
                           <span>{item.quantity}</span>
                           <IconContainer>
                             <AiFillPlusCircle
                               size={20}
-                              onClick={() => addItemToCart(item)}
+                              onClick={() => dispatch(addItemToCart(item))}
                             />
                           </IconContainer>
                         </QuantityContainer>
                       )}
-                      {!isPortrait && <span>&#8377;{item.price}</span>}
+                      {!isPortrait && (
+                        <h3 style={{ fontWeight: "600", userSelect: "none" }}>
+                          &#8377;{item.price}
+                        </h3>
+                      )}
                     </CheckoutItem>
                     <HrLine />
-                  </>
+                  </div>
                 );
               })}
               <CartTotalContainer>
@@ -104,7 +119,6 @@ const Checkout = () => {
               </CartTotalContainer>
             </CheckoutItems>
           </CheckoutContainer>
-          {/* <Text>Go To Checkout &rarr;</Text> */}
         </>
       ) : (
         <NoItemsImageContainer>

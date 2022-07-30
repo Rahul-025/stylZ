@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,8 +21,9 @@ import Shopping from "../../assets/images/shopping-illustration.png";
 //Components
 import FormInput from "../formInput/FormInput.component";
 
-// Contexts
-import { UtilityContext } from "../../contexts/utilities.context";
+// Redux
+import { selectUserLoggedIn } from "../../store/user/user.selectors";
+import { setUserLoggedIn } from "../../store/user/user.slice";
 
 //Styles
 import { HeadingH2, ButtonDarkBlue, Div } from "../../commonStyles";
@@ -45,8 +47,11 @@ const defaultFormFields = {
 const SignIn = ({ setModel }) => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-  const { loading, setLoading } = useContext(UtilityContext);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const userLoggedIn = useSelector(selectUserLoggedIn);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -60,24 +65,24 @@ const SignIn = ({ setModel }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
+    dispatch(setUserLoggedIn(true));
 
     if (!email) {
-      setLoading(false);
+      dispatch(setUserLoggedIn(false));
       return ErrorToastEmitter("email-req");
     }
 
     if (!password) {
-      setLoading(false);
+      dispatch(setUserLoggedIn(false));
       return ErrorToastEmitter("password-req");
     }
 
     try {
       await SignInAuthUserFromEmailAndPassword(email, password);
-      setLoading(false);;
-      navigate("/shop");
+      dispatch(setUserLoggedIn(false));
+      navigate("/");
     } catch (error) {
-      setLoading(false);
+      dispatch(setUserLoggedIn(false));
       console.log(error.code);
       ErrorToastEmitter(error.code);
     }
@@ -117,7 +122,7 @@ const SignIn = ({ setModel }) => {
         </Form>
         <ButtonContainer style={{ marginTop: "2rem" }}>
           <ButtonDarkBlue type="submit" onClick={handleSubmit}>
-            {loading ? (
+            {userLoggedIn ? (
               <PulseLoader size={10} color={"var(--body-yellow)"} />
             ) : (
               "Sign In"

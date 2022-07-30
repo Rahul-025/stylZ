@@ -1,10 +1,10 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useClickOutside } from "../../utilities/useClickOutside";
+import { useDispatch, useSelector } from "react-redux";
 
 // Images and Logos
-import { BsBag } from "react-icons/bs";
-import MyLogo from "../../assets/images/logo.png";
+import { RiShoppingCartFill } from "react-icons/ri";
+import MyLogo from "../../assets/images/stylz-logo.png";
 
 // Styles
 import {
@@ -20,19 +20,30 @@ import { Span } from "../../commonStyles";
 
 // Utils
 import { signOutUser } from "../../utilities/firebase/firebase.util";
+import { useClickOutside } from "../../utilities/useClickOutside";
 
 // Contexts
-import { UserContext } from "../../contexts/user.context";
 import CartDropdown from "../cart-dropdown/CartDropdown.component";
-import { CartContext } from "../../contexts/cart.context";
+
+// redux
+import { selectCurrentUser } from "../../store/user/user.selectors";
+import {
+  selectIsCartOpen,
+  selectCartCount,
+} from "../../store/cart/cart.selectors";
+import { setIsCartOpen } from "../../store/cart/cart.slice";
 
 const Navbar = () => {
-  const { user } = useContext(UserContext);
-  const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartDropdownRef = useRef(null);
 
-  useClickOutside(cartDropdownRef, () => setIsCartOpen(false));
+  // selectors
+  const currentUser = useSelector(selectCurrentUser);
+  const isCartOpen = useSelector(selectIsCartOpen);
+  const cartCount = useSelector(selectCartCount);
+
+  useClickOutside(cartDropdownRef, () => dispatch(setIsCartOpen(false)));
 
   const handleSignOut = () => {
     signOutUser();
@@ -40,33 +51,38 @@ const Navbar = () => {
   };
 
   const toggleCartOpen = () => {
-    setIsCartOpen(!isCartOpen);
+    dispatch(setIsCartOpen(!isCartOpen));
   };
 
   return (
     <div>
       <NavbarContainer>
         <NavbarLinksContainer>
-          <Logo src={MyLogo} />
-          <LinkText to="/">STYLZ</LinkText>
+          <LinkText to="/">
+            <Logo src={MyLogo} />
+          </LinkText>
         </NavbarLinksContainer>
 
         <NavbarLinksContainer>
           <LinkText to="/shop">SHOP</LinkText>
-          {user ? (
-            <Span onClick={handleSignOut}>SIGN OUT</Span>
+          {currentUser ? (
+            <LinkText as={"span"} onClick={handleSignOut}>
+              SIGN OUT
+            </LinkText>
           ) : (
             <LinkText to="/auth">SIGN IN</LinkText>
           )}
           <div ref={cartDropdownRef}>
-            <CartIconContainer onClick={toggleCartOpen} ref={cartDropdownRef}>
-              <BsBag
-                size={35}
-                color={"#005A64"}
-                style={{ cursor: "pointer" }}
-              />
-              <CartCount>{cartCount}</CartCount>
-            </CartIconContainer>
+            {currentUser && (
+              <CartIconContainer onClick={toggleCartOpen}>
+                <RiShoppingCartFill
+                  size={30}
+                  color={"#005A64"}
+                  style={{ cursor: "pointer" }}
+                />
+                <CartCount>{cartCount}</CartCount>
+              </CartIconContainer>
+            )}
             {isCartOpen && <CartDropdown />}
           </div>
         </NavbarLinksContainer>

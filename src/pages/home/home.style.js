@@ -3,12 +3,13 @@ import {} from "../../";
 import { CategoryCardContainer } from "../../components/home-category-card/HomeCategory-card.style";
 
 export const CategoriesContainer = styled.div`
-  margin: 10rem 3rem 5rem 3rem;
+  margin: 12rem 3rem 5rem 3rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 40rem 40rem 40rem;
   column-gap: 3rem;
   row-gap: 3rem;
+  user-select: none;
 
   ${CategoryCardContainer}:nth-child(1) {
     grid-row: span 2;

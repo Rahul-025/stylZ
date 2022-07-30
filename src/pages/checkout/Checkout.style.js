@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CheckoutPageContainer = styled.div`
-  margin: 10rem auto;
+  margin: 12rem auto 8rem auto;
   width: 80vw;
 
   @media (max-width: 750px) {
@@ -40,8 +40,10 @@ export const CheckoutItems = styled.div`
 `;
 
 export const HrLine = styled.div`
+  margin-top: 4rem;
   width: 100%;
-  border-bottom: 2px dotted var(--text-primary-blue);
+  border-bottom: 4px solid var(--text-primary-blue);
+  border-radius: 80%;
 `;
 
 export const CheckoutItem = styled.div`
@@ -107,6 +109,7 @@ export const QuantityContainer = styled.div`
   justify-content: center;
   gap: 2rem;
   margin-right: 2rem;
+  user-select: none;
 
   @media (max-width: 1050px) {
     svg {
@@ -154,6 +157,7 @@ export const CartTotalContainer = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--text-primary-blue);
+  user-select: none;
 `;
 
 export const FlexDivColumn = styled.div`

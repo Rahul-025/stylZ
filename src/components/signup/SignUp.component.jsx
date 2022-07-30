@@ -1,4 +1,5 @@
 import { useState, useContext, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import PulseLoader from "react-spinners/PulseLoader";
@@ -16,8 +17,9 @@ import { ErrorToastEmitter } from "../../utilities/toaster/toast.util";
 // Images and Icons
 import { GiCrossedBones } from "react-icons/gi";
 
-// Contexts
-import { UtilityContext } from "../../contexts/utilities.context";
+// Redux
+import { selectUserLoggedIn } from "../../store/user/user.selectors";
+import { setUserLoggedIn } from "../../store/user/user.slice";
 
 //Components
 import FormInput from "../formInput/FormInput.component";
@@ -44,16 +46,19 @@ const defaultFormFields = {
 const SignUp = ({ setModel }) => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, displayName, password, confirmPassword } = formFields;
-  const { loading, setLoading } = useContext(UtilityContext);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const signUpRef = useRef(null);
+
+  const userLoggedIn = useSelector(selectUserLoggedIn);
 
   useClickOutside(signUpRef, () => setModel(false));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setLoading(true);
+    dispatch(setUserLoggedIn(true));
 
     if (password !== confirmPassword) {
       alert("Passwords do not matcch");
@@ -65,10 +70,10 @@ const SignUp = ({ setModel }) => {
       );
       await createUserDocFromAuth(user, { displayName });
       setFormFields(defaultFormFields);
-      setLoading(false);
+      dispatch(setUserLoggedIn(false));
       navigate("/");
     } catch (error) {
-      setLoading(false);
+      dispatch(setUserLoggedIn(false));
       ErrorToastEmitter(error.code);
     }
   };
@@ -132,7 +137,7 @@ const SignUp = ({ setModel }) => {
         </Form>
         <ButtonContainer style={{ marginTop: "2rem" }}>
           <ButtonDarkBlue type="submit" onClick={handleSubmit}>
-            {loading ? (
+            {userLoggedIn ? (
               <PulseLoader size={10} color={"var(--body-yellow)"} />
             ) : (
               "Sign Up"

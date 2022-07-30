@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
 
 // Styles;
 import {
@@ -9,15 +9,16 @@ import {
   Text,
 } from "./ProductCard.style";
 
-// Contexts
-import { CartContext } from "../../contexts/cart.context";
 import { SuccessToastEmmitter } from "../../utilities/toaster/toast.util";
 
+// redux
+import { addItemToCart } from "../../store/cart/cart.slice";
+
 export const ProductCard = ({ product }) => {
-  const { addItemToCart } = useContext(CartContext);
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    addItemToCart(product);
+    dispatch(addItemToCart(product));
     SuccessToastEmmitter("addItemToCart", product.subtitle);
   };
 

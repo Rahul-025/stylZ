@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 9rem 3rem 9rem 3rem;
+  margin: 12rem 3rem 10rem 3rem;
 `;
 
 export const HeadingH2 = styled.h2`
@@ -96,3 +96,11 @@ export const BaseImage = styled.img`
   overflow: hidden;
   transition: opacity 0.4s;
 `;
+
+
+export const LoaderContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
